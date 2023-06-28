@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { InputOrderDto } from './orders.dto';
-import { OrderStatus } from '@prisma/client/orders';
+import { OrderStatus } from '../../../node_modules/.prisma/client/orders';
 
 @Injectable()
 export class OrdersService {
@@ -16,7 +16,7 @@ export class OrdersService {
       data: {
         price,
         customer_id: customerId,
-        status: OrderStatus.PENDING,
+        status: OrderStatus.PROCESSING,
       },
     });
   }

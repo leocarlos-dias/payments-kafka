@@ -1,1 +1,11 @@
-GET http://localhost:3000
+### Get Orders
+GET http://localhost:3000/orders
+
+### Create Order
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+  "price": 200,
+  "customerId": 2
+}
