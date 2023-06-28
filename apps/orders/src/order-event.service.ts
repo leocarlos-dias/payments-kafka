@@ -7,6 +7,6 @@ export class OrderEventService {
   constructor(@Inject('ORDERS_SERVICE') private kafkaProducer: ClientKafka) {}
 
   async emitOrderCreatedEvent(order: any): Promise<void> {
-    await lastValueFrom(this.kafkaProducer.emit('order_created', order));
+    await lastValueFrom(this.kafkaProducer.emit('orders', order));
   }
 }

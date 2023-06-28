@@ -1,9 +1,7 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { InputOrderDto } from './orders.dto';
 import { OrderStatus } from '../../../node_modules/.prisma/client/orders';
-import { ClientKafka } from '@nestjs/microservices';
-import { lastValueFrom } from 'rxjs';
 import { OrderEventService } from './order-event.service';
 
 @Injectable()
@@ -25,7 +23,7 @@ export class OrdersService {
         status: OrderStatus.PROCESSING,
       },
     });
-    this.orderEventService.emitOrderCreatedEvent(order);
+    await this.orderEventService.emitOrderCreatedEvent(order);
     return order;
   }
 }
