@@ -1,13 +1,19 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { InputPaymentDto } from './payments.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
-@Controller()
+@Controller('payments')
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
   @Get()
-  create(@Body() input: InputPaymentDto) {
-    return this.paymentsService.create(input);
+  getAll() {
+    return this.paymentsService.getAll();
+  }
+
+  @MessagePattern('orders')
+  async payment(@Payload() input: InputPaymentDto) {
+    return this.paymentsService.payment(input);
   }
 }

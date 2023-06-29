@@ -24,6 +24,12 @@ export class OrdersService {
       },
     });
     await this.orderEventService.emitOrderCreatedEvent(order);
-    return order;
+    return {
+      orderId: order.id,
+      price: order.price,
+      customerId: order.customer_id,
+      createdAt: order.created_at,
+      status: order.status,
+    };
   }
 }
