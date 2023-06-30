@@ -12,4 +12,8 @@ export class OutputOrderDto {
   createdAt: Date;
   status: OrderStatus;
 }
-export { OrderStatus };
+
+export class InputPaymentDto {
+  orderId: number;
+  status: string;
+}

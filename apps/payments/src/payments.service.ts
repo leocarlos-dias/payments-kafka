@@ -3,7 +3,6 @@ import { PrismaService } from './prisma/prisma.service';
 import { InputPaymentDto, OutputPaymentDto } from './payments.dto';
 import { PaymentStatus } from '../../../node_modules/.prisma/client/payments';
 import { OrderEventService } from './order-event.service';
-import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class PaymentsService {
@@ -17,9 +16,9 @@ export class PaymentsService {
   }
 
   async payment({
-    customerId,
     orderId,
     price,
+    customerId,
   }: InputPaymentDto): Promise<OutputPaymentDto> {
     const payment = await this.prisma.payment.create({
       data: {
@@ -28,8 +27,19 @@ export class PaymentsService {
         customer_id: customerId,
         status: PaymentStatus.ACCEPTED,
       },
+      select: {
+        id: true,
+        value: true,
+        order_id: true,
+        customer_id: true,
+        created_at: true,
+        status: true,
+      },
     });
-    await this.orderEventService.emitPaymentCreatedEvent(payment);
+    await this.orderEventService.emitPaymentCreatedEvent({
+      orderId: payment.order_id,
+      status: payment.status,
+    });
     return {
       paymentId: payment.id,
       orderId: payment.order_id,

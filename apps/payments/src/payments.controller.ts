@@ -14,6 +14,7 @@ export class PaymentsController {
 
   @MessagePattern('orders')
   async payment(@Payload() input: InputPaymentDto) {
+    console.log(input);
     return this.paymentsService.payment(input);
   }
 }
