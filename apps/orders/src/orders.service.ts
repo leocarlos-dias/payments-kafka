@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from './prisma/prisma.service';
 import { InputOrderDto, InputPaymentDto, OutputOrderDto } from './orders.dto';
-import { OrderStatus } from '../../../node_modules/.prisma/client/orders';
 import { OrderEventService } from './order-event.service';
+import { OrderStatus } from '.prisma/client/orders';
+import { PrismaService } from './prisma/prisma.service';
 
 @Injectable()
 export class OrdersService {
@@ -42,6 +42,18 @@ export class OrdersService {
       price: order.price,
       customerId: order.customer_id,
     });
+    console.log(
+      '🛒 Order Generated:',
+      `#${order.id}`,
+      '🔸 Price:',
+      order.price,
+      '👤 Customer:',
+      order.customer_id,
+      '🕒 Created At:',
+      order.created_at,
+      '📝 Status:',
+      order.status,
+    );
     return {
       orderId: order.id,
       price: order.price,
@@ -59,5 +71,6 @@ export class OrdersService {
           status === 'ACCEPTED' ? OrderStatus.PAYED : OrderStatus.CANCELLED,
       },
     });
+    console.log(`🛒 Order Update: Order ID #${orderId} 🔸 Status: ${status}`);
   }
 }

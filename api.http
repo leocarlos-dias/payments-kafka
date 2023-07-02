@@ -1,14 +1,14 @@
-### Create Order
+### Create order
 POST http://localhost:3000/orders
 Content-Type: application/json
 
 {
-  "price": 200,
-  "customerId": 2
+  "price": 10000,
+  "customerId": 1
 }
 
-### Get Orders
+### Get orders - Verify order status
 GET http://localhost:3000/orders
 
-### Get Payments
+### Get payments
 GET http://localhost:3001/payments

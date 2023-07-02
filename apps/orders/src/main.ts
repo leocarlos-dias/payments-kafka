@@ -3,7 +3,9 @@ import { OrdersModule } from './orders.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.create(OrdersModule);
+  const app = await NestFactory.create(OrdersModule, {
+    logger: ['error'],
+  });
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,
@@ -18,6 +20,8 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
-  await app.listen(3000);
+  await app.listen(3000, () => {
+    console.log('⚡️ Orders service is up and running on port 3000');
+  });
 }
 bootstrap();

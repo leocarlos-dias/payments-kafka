@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { InputPaymentDto, OutputPaymentDto } from './payments.dto';
-import { PaymentStatus } from '../../../node_modules/.prisma/client/payments';
 import { OrderEventService } from './order-event.service';
+import { PaymentStatus } from '.prisma/client/payments';
 
 @Injectable()
 export class PaymentsService {
@@ -25,7 +25,8 @@ export class PaymentsService {
         value: price,
         order_id: orderId,
         customer_id: customerId,
-        status: PaymentStatus.ACCEPTED,
+        status:
+          Math.random() < 0.5 ? PaymentStatus.ACCEPTED : PaymentStatus.REJECTED,
       },
       select: {
         id: true,
@@ -40,6 +41,22 @@ export class PaymentsService {
       orderId: payment.order_id,
       status: payment.status,
     });
+
+    console.log(
+      '💰 Payment Processed:',
+      `#${payment.id}`,
+      '🔸 Order:',
+      payment.order_id,
+      '💲 Value:',
+      payment.value,
+      '👤 Customer:',
+      payment.customer_id,
+      '🕒 Created At:',
+      payment.created_at,
+      '📝 Status:',
+      payment.status,
+    );
+
     return {
       paymentId: payment.id,
       orderId: payment.order_id,
