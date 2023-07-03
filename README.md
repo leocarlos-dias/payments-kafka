@@ -1,94 +1,146 @@
-# Ordens e Pagamentos
+Ordens e Pagamentos
+===================
 
-O projeto "Ordens e Pagamentos" é uma aplicação desenvolvida com o objetivo de aprender e explorar os conceitos de mensageria e microserviços. Utilizando as tecnologias NestJS e Kafka, o projeto permite entender e praticar a arquitetura distribuída de serviços, a comunicação assíncrona e a troca de mensagens entre componentes. Ao criar e manipular ordens e pagamentos, você ganhará experiência na implementação de microserviços independentes e na integração entre eles.
+_Explorando os conceitos de mensageria e microserviços com NestJS e Kafka_
 
-## Tecnologias Utilizadas
-- Node.js
-- TypeScript
-- NestJS
-- Prisma
-- MySQL
-- Docker
-- Docker Compose
+![Node.js Version](https://img.shields.io/badge/Node.js-20.3-green) ![TypeScript Version](https://img.shields.io/badge/TypeScript-5.1-blue) ![NestJS Version](https://img.shields.io/badge/NestJS-10.0-red) ![Prisma Version](https://img.shields.io/badge/Prisma-4.16-orange) ![Kafka Version](https://img.shields.io/badge/Kafka-2.2-yellow)
 
-## 3 - Estrutura do Projeto
+📖 Descrição
+------------
 
-O projeto é um monolito que contem dois servidores "distintos", nas pastas `apps/orders` e `apps/payments`.
+O projeto "Ordens e Pagamentos" é uma aplicação desenvolvida com o objetivo de explorar os conceitos de mensageria e microserviços, utilizando as tecnologias NestJS e Kafka. O projeto tem como finalidade permitir a criação e manipulação de ordens e pagamentos, fornecendo uma experiência prática na implementação de microserviços independentes e sua integração.
 
-### 3.1 - Orders
+🚀 Tecnologias Utilizadas
+-------------------------
 
-A pasta `apps/orders` contém o sistema para publicar uma mensagem quando a ordem for gerada e consumidar quando o pagamento for processado.
+*   Node.js
+*   TypeScript
+*   NestJS
+*   Prisma
+*   MySQL
+*   Kafka
+*   Docker
+*   Docker Compose
 
-### 3.2 - Payments
+📁 Estrutura do Projeto
+-----------------------
 
-A pasta `apps/payments` contém o sistema para consumir a ordem e publicar o resultado do processamento.
+O projeto é composto por dois servidores "distintos" localizados nas pastas `apps/orders` e `apps/payments`. Cada servidor possui responsabilidades específicas relacionadas à criação, processamento e comunicação das ordens e pagamentos.
 
-## 4 - Como Executar
-Siga as instruções abaixo para executar o projeto em sua máquina local.
-
-### 4.1.0 - Rodando pelo docker compose:
-Acesse a pasta `payments-kafka` e abra o VSCode:
 ```
-cd payments-kafka && code .
+.
+├── apps
+│   ├── orders
+│   │   ├── src
+│   │   │   ├── controllers
+│   │   │   ├── services
+│   │   │   └── ...
+│   │   └── ...
+│   └── payments
+│       ├── src
+│       │   ├── controllers
+│       │   ├── services
+│       │   └── ...
+│       └── ...
+├── ...
+├── docker-compose.yml
+└── ...
 ```
-Rode os containers com o comando:
+
+🛠️ Como Executar
+-----------------
+
+### 1\. Configuração
+
+Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
+
+### 2\. Clonar o Repositório
 ```
-docker compose up
+git clone https://github.com/seu-usuario/ordens-pagamentos.git
 ```
-Entre no container do app:
+### 3\. Executar o Docker Compose
+
+Acesse a pasta raiz do projeto e execute o seguinte comando para iniciar os containers:
+```
+docker-compose up
+```
+Este comando iniciará os serviços necessários, incluindo o servidor Kafka.
+
+### 4\. Configuração das Aplicações
+
+#### 4.1 App
+Acesse o terminal do docker usando o seguinte comando:
 ```
 docker compose exec app bash
 ```
-Instale as dependências:
+Logo após instale as depêndencias do projeto:
 ```
-npm install
+npm install     # Instalar as dependências
 ```
-### 4.1.1 - Orders
-Rode o comando para o prisma realizar a migrate:
+*Observação: É necessário a utilização do terminal executado pelo docker compose para as próximas etapas.*
+
+#### 4.2 Orders
+
+Acesse a pasta `apps/orders` e execute os seguintes comandos:
 ```
-cd apps/orders && npx prisma migrate dev
+cd apps/orders     # Acessar a pasta
+npx prisma migrate dev    # Executar as migrações do Prisma
+npm run start:dev   # Iniciar o servidor de ordens
 ```
-Para rodar a aplicação rode o comando:
+#### 4.3 Payments
+
+Acesse a pasta `apps/payments` e execute os seguintes comandos:
 ```
-npm run start:dev
-```
-### 4.1.2 - Payments
-Rode o comando para o prisma realizar a migrate:
-```
-cd apps/payments && npx prisma migrate dev
-```
-Para rodar a aplicação rode o comando:
-```
-npm run start:dev payments
+npm install     # Instalar as dependências
+npx prisma migrate dev    # Executar as migrações do Prisma
+npm run start:dev payments    # Iniciar o servidor de pagamentos
 ```
 
-OBSERVAÇÃO: Caso precise parar os containers por algum motivo rode o comando: docker compose down, pois o container do Kafka precisa ser parado e restartado.
+🛠️ *Opcional* Como Executar com *Dev Container*
+-----------------
 
-### 4.2.0 - Rodando pelo dev container:
-Instale as dependências:
-```
-npm install
-```
-### 4.2.1 - Orders
-Rode o comando para o prisma realizar a migrate:
-```
-cd apps/orders && npx prisma migrate dev
-```
-Para rodar a aplicação rode o comando:
-```
-npm run start:dev
-```
-### 4.2.2 - Payments
-Rode o comando para o prisma realizar a migrate:
-```
-cd apps/payments && npx prisma migrate dev
-```
-Para rodar a aplicação rode o comando:
-```
-npm run start:dev payments
-```
-OBSERVAÇÃO: Caso precise parar os containers por algum motivo faça como abaixo:
-Digite ctrl + shift + p e selecione Dev Containers: Rebuild Containers, pois o container do Kafka precisa ser parado e restartado.
+### 1\. Configuração
 
-## 5 - Como utilizar
-O arquivo `api.http` na raiz contém as requisições necessárias para reproduzir o ambiente. Você pode usa-lo com o plugin do VSCode REST Client. Quando enviar dados na requisição, o consumirá a mensagem e mostrará no console.
+Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina e o plugin do Dev Container no VSCode.
+
+### 2\. Clonar o Repositório
+```
+git clone https://github.com/seu-usuario/ordens-pagamentos.git
+```
+### 3\. Abrir o projeto com o Dev Container
+
+Acesse a pasta raiz do projeto, abra a paleta de comandos do VSCode e digite por:
+```
+Dev Containers: Open Folder in Container
+```
+Este comando iniciará os a configuração necessária. Será preciso inserir o diretório do projeto após avançar no comando.
+
+### 4\. Configuração das Aplicações
+
+#### 4.1 App
+Instale as depêndencias do projeto:
+```
+npm install     # Instalar as dependências
+```
+
+#### 4.2 Orders
+
+Acesse a pasta `apps/orders` e execute os seguintes comandos:
+```
+cd apps/orders     # Acessar a pasta
+npx prisma migrate dev    # Executar as migrações do Prisma
+npm run start:dev   # Iniciar o servidor de ordens
+```
+#### 4.3 Payments
+
+Acesse a pasta `apps/payments` e execute os seguintes comandos:
+```
+cd apps/payments     # Acessar a pasta
+npx prisma migrate dev    # Executar as migrações do Prisma
+npm run start:dev payments    # Iniciar o servidor de pagamentos
+```
+
+📝 Utilização
+-------------
+
+O arquivo api.http, localizado na raiz do projeto, contém as requisições necessárias para interagir com a API. Para executar essas requisições diretamente no editor, você pode utilizar o plugin do VSCode chamado 'REST Client'.
