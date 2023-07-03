@@ -91,7 +91,7 @@ npm run start:dev   # Iniciar o servidor de ordens
 
 Acesse a pasta `apps/payments` e execute os seguintes comandos:
 ```
-npm install     # Instalar as dependências
+cd apps/payments     # Acessar a pasta
 npx prisma migrate dev    # Executar as migrações do Prisma
 npm run start:dev payments    # Iniciar o servidor de pagamentos
 ```
